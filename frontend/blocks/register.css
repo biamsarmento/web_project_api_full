@@ -1,0 +1,109 @@
+.register {
+    min-width: 320px;
+    min-height: 1200px;
+    /* max-width: 1280px; */
+    height: 100%;
+    margin: 0 auto;
+    padding: 0;
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.register__title {
+    color: white;
+    font-family: Inter;
+    font-size: 24px;
+    font-weight: 900;
+    line-height: 29.05px;
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.register__login-button {
+    color: white;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
+    align-self: center;
+    margin-top: 7px;
+    font-family: Inter;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 16.94px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.register__login-button_link {
+    color: white;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
+    align-self: center;
+    margin-top: 7px;
+    font-family: Inter;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 16.94px;
+    text-align: center;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+  /* FORM */
+
+.register__form {
+    max-width: 358px;
+}
+
+.form__submit-button__register {
+    border-radius: 2px;
+    width: 100%;
+    height: 50.15px;
+    padding: 0;
+    background-color: white;
+    color: #000000;
+    border: 0;
+    font-family: "Inter", Arial, sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 21.78px;
+    text-align: center;
+    cursor: pointer;
+    margin-top: 168px;
+}
+
+.form__submit-button__register_inactive {
+    opacity: 0.2;
+    pointer-events: none;
+    cursor: not-allowed;
+    background-color: #FFFFFF;
+}
+
+.form__submit-button__register:hover {
+    opacity: 80%;
+}
+
+.form__input_type_password,
+.form__input_type_email {
+    color: white;
+    background-color: transparent;
+    border-bottom: 2px solid #CCCCCC;
+    caret-color: auto;
+    overflow: hidden;
+}
+
+/* .form__input_type_password {
+    margin-bottom: 168px;
+} */
+
+.form__input_type_password::placeholder,
+.form__input_type_email::placeholder {
+    color: #CCCCCC;
+}

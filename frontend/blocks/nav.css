@@ -1,0 +1,103 @@
+.nav {
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+  position: relative;
+  align-items: center;
+}
+
+.nav__logo-link {
+  box-sizing: border-box;
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+}
+
+.nav__logo {
+  box-sizing: border-box;
+  cursor: pointer;
+  margin-bottom: 40px;
+}
+
+.nav__logged-in {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 56px;
+  margin-bottom: 40px;
+}
+
+.nav__logged-in__email {
+  color: white;
+  font-family: Inter;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 22px;
+  text-align: right; 
+  text-underline-position: from-font;
+  margin: 0;
+  padding: 0;
+}
+
+.nav__logged-in__sair {
+  color: #A9A9A9;
+  font-family: Inter;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 22px;
+  text-align: right;
+  margin: 0;
+  padding: 0;
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+}
+
+.nav__signup,
+.nav__signin {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  color: white;
+  font-family: Inter;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 22px;
+  text-align: right;
+}
+
+.nav__button {
+  cursor: pointer;
+  border: 0;
+  background-color: transparent;
+  color: white;
+  padding: 0;
+  margin: 0;
+  margin-bottom: 40px;
+}
+
+/* @media (min-width: 320px){
+
+  .nav__logo-link {
+    margin-bottom: 32px;
+    margin-left: 27px;
+  }
+
+  .nav__logo {
+    max-width: 126px;
+  }
+}
+
+@media (min-width: 880px){
+
+  .nav__logo-link {
+    margin: 0;
+    margin-bottom: 41px;
+  }
+
+  .nav__logo {
+    max-width: 173px;
+  }
+} */
+

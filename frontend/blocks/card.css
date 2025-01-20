@@ -1,0 +1,145 @@
+.card {
+  border-radius: 10px;
+  width: 282px;
+  height: 361px;
+  background-color: #FFFFFF;
+  box-shadow: 0px 0px 25px 0px #00000026;
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 25px;
+}
+
+.card__delete-button_visible {
+  display: block;
+  box-sizing: border-box;
+  width: 18px;
+  height: 19.3px;
+  background-color: transparent;
+  background-image: url(../images/Trash.svg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: absolute;
+  cursor: pointer;
+  padding: 0;
+  margin-top: 18px;
+  border: 0;
+  margin-right: 15px;
+  align-self: flex-end;
+  z-index: 2;
+}
+
+.card__delete-button_hidden {
+  display: none;
+}
+
+.card__delete-button_visible:hover{
+  opacity: 60%;
+}
+
+.card__image-link {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.card__image {
+  width: 282px;
+  height: 282px;
+  border-radius: 10px 10px 0 0;
+  object-fit: cover;
+}
+
+.card__tag {
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 246px;
+  margin: 0 auto;
+  vertical-align: middle;
+}
+
+.card__tag-title {
+  font-family: "Inter", Arial, sans-serif;
+  font-size: 24px;
+  font-weight: 900;
+  line-height: 29.05px;
+  text-align: left;
+  margin: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width: calc(246px - 21px);
+}
+
+.card__tag-likes {
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 246px;
+  margin: 0 auto;
+  width: 21px;
+  height: 37px;
+  gap: 3px;
+}
+
+.card__tag-like {
+  padding: 0;
+  border: 0;
+  margin: 0;
+  background-color: transparent;
+  background-image: url("../images/Like.svg");
+  width: 21px;
+  height: 19px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.card__tag-like:hover {
+  opacity: 50%;
+}
+
+.card__tag-like_liked {
+  background-image: url("../images/Union.png");
+}
+
+.card__tag-like-count {
+  font-family: "Inter";
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 15.73px;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+.song__like {
+  border: none;
+  background: url(https://practicum-content.s3.us-west-1.amazonaws.com/web-code/dom/moved_heart.svg) center no-repeat;
+  background-size: 100%;
+  cursor: pointer;
+  height: 15px;
+  width: 15px;
+  position: absolute;
+  right: 10px;
+  opacity: 0.5;
+  transition: 0.3s;
+}
+
+.song__like:hover {
+  transform: scale(1.3);
+}
+
+.song__like_active {
+  opacity: 1;
+  background: url(https://practicum-content.s3.us-west-1.amazonaws.com/web-code/dom/moved_heart-filled.svg) center no-repeat;
+}
