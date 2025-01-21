@@ -5,6 +5,7 @@ const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
 const auth = require('./middlewares/auth');
 const { login, createUser } = require('./controllers/users');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const app = express();
 const { PORT = 3000 } = process.env;
@@ -18,6 +19,7 @@ app.use(express.json());
 app.use(cors({
   origin: "*",
 }));
+app.use(requestLogger);
 
 app.post('/signin', login);
 app.post('/signup', createUser);
@@ -26,6 +28,9 @@ app.use(auth);
 
 app.use('/users', usersRouter);
 app.use('/cards', cardsRouter);
+
+app.use(errorLogger);
+// app.use(errors());
 
 app.use((req, res) => {
   res.status(404).send({
