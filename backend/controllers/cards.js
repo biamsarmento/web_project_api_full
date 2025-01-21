@@ -22,10 +22,25 @@ module.exports.createCard = (req, res) => {
 
 module.exports.deleteCard = (req, res) => {
   const { id } = req.params;
-
-  Card.findByIdAndDelete(id)
+  Card.findById(id)
     .orFail()
-    .then((card) => res.send({ data: card }))
+    .then((card) => {
+      const ownerId = card.owner.toHexString();
+      if( ownerId === req.user._id) {
+        Card.findByIdAndDelete(id)
+        .orFail()
+        .then((card) => res.send({ data: card }))
+        .catch((err) => {
+          if (err.name === 'ValidationError') return res.status(400).send({ message: 'Dados inválidos fornecidos.' });
+
+          if (err.name === 'CastError') return res.status(404).send({ message: 'Cartão não encontrado.' });
+
+          return res.status(500).send({ message: err.message });
+        });
+      } else {
+        console.log("Esse usuário não pode apagar cartões de outro usuário");
+      }
+    })
     .catch((err) => {
       if (err.name === 'ValidationError') return res.status(400).send({ message: 'Dados inválidos fornecidos.' });
 

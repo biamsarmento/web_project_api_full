@@ -46,6 +46,7 @@ function App() {
 
       const token = getToken();
       if (!token) {
+        console.log("TOKEN: ", token);
         return;
       } else if(token) {
         auth

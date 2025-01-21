@@ -1,4 +1,5 @@
-export const BASE_URL = "https://register.nomoreparties.co";
+// export const BASE_URL = "https://register.nomoreparties.co";
+export const BASE_URL = "http://localhost:3000";
 
 // A função register aceita os dados necessários como argumentos
 // e envia uma solicitação POST ao endpoint especificado.

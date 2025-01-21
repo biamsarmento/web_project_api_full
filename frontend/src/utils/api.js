@@ -5,24 +5,28 @@ class Api {
   }
 
   _makeRequest(endpoint, method = 'GET', body = null) {
-      const options = {
-          method,
-          headers: {...this.headers}
-      };
+        const token = localStorage.getItem('token');
+        const options = {
+            method,
+            headers: {
+                ...this.headers,
+                ...(token && { authorization: `Bearer ${token}` })
+            }
+        };
 
-      if (body) {
-          options.headers['Content-Type'] = 'application/json'; 
-          options.body = JSON.stringify(body);
-      }
+        if (body) {
+            options.headers['Content-Type'] = 'application/json'; 
+            options.body = JSON.stringify(body);
+        }
 
-      return fetch(`${this.baseUrl}${endpoint}`, options)
-          .then((res) => {
-              if (!res.ok) throw new Error(`Server ERROR: ${res.status}`);
-              return res.json();
-          })
-          .catch((error) => {
-              console.error("Error:", error);
-          });
+        return fetch(`${this.baseUrl}${endpoint}`, options)
+            .then((res) => {
+                if (!res.ok) throw new Error(`Server ERROR: ${res.status}`);
+                return res.json();
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
   }
 
   getInitialCards() {
@@ -64,11 +68,12 @@ class Api {
 }
 
 const api = new Api({
-  baseUrl: "https://around.nomoreparties.co/v1/web-ptbr-cohort-13",
+//   baseUrl: "https://around.nomoreparties.co/v1/web-ptbr-cohort-13",
+  baseUrl: "http://localhost:3000",
   headers: {
-      authorization: "4fe5fb1a-9a42-4631-9f7e-39eb49951a0f",
+    //   authorization: "4fe5fb1a-9a42-4631-9f7e-39eb49951a0f",
       "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "https://around.nomoreparties.co/v1/web-ptbr-cohort-13"
+    //   "Access-Control-Allow-Origin": "https://around.nomoreparties.co/v1/web-ptbr-cohort-13"
 
   }
 });
