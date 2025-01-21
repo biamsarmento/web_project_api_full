@@ -33,11 +33,21 @@ module.exports.login = (req, res) => {
 };
 
 module.exports.getCurrentUser = (req, res) => {
-  res.send({ data: req.user });
+  User.findById(req.user._id)
+    .orFail()
+    .then((user) => {
+      res.send({ data: user });
+    })
+    .catch((err) => {
+      if (err.name === 'ValidationError') return res.status(400).send({ message: 'Dados inválidos fornecidos.' });
+
+      if (err.name === 'CastError') return res.status(404).send({ message: 'Usuário não encontrado.' });
+
+      return res.status(500).send({ message: err.message });
+    });
 };
 
 module.exports.getUsers = (req, res) => {
-  console.log("getUsers");
   User.find({})
     .then((users) => res.send({ data: users }))
     .catch((err) => res.status(500).send({ message: err.message }));

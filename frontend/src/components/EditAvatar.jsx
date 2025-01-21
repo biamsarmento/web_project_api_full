@@ -9,7 +9,7 @@ export default function EditAvatar(props) {
     e.preventDefault();
   
     await handleUpdateAvatar({
-        avatar: avatarRef.current.value,
+      avatar: avatarRef.current.value,
     });
     props.onClose();
   }

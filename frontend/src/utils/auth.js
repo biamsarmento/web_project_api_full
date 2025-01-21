@@ -3,7 +3,7 @@ export const BASE_URL = "http://localhost:3000";
 
 // A função register aceita os dados necessários como argumentos
 // e envia uma solicitação POST ao endpoint especificado.
-export const register = (password, email) => {
+export const register = (email, password) => {
   return fetch(`${BASE_URL}/signup`, {
     method: "POST",
     headers: {
@@ -11,7 +11,7 @@ export const register = (password, email) => {
       Accept: "application/json",
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ password, email }),
+    body: JSON.stringify({ email, password }),
   })
     .then((res) => {
       return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
@@ -19,7 +19,7 @@ export const register = (password, email) => {
 };
 
 // A função authorize aceita os dados necessários como parâmetros.
-export const authorize = (password, email) => {
+export const authorize = (email, password) => {
     // Uma solicitação POST é enviada para /auth/local.
     return fetch(`${BASE_URL}/signin`, {
       method: "POST",
@@ -29,24 +29,24 @@ export const authorize = (password, email) => {
       },
       // Os parâmetros são envolvidos em um objeto, convertidos em uma string
       // JSON e enviados no body da solicitação.
-      body: JSON.stringify({ password, email }),
+      body: JSON.stringify({ email, password }),
     }).then((res) => {
       return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
     });
   };
 
 export const retrieveEmail = (token) => {
-    // Uma solicitação POST é enviada para /auth/local.
-    return fetch(`${BASE_URL}/users/me`, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
-      },
-      // Os parâmetros são envolvidos em um objeto, convertidos em uma string
-      // JSON e enviados no body da solicitação.
-    }).then((res) => {
-      return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
-    });
-  };
+  // Uma solicitação POST é enviada.
+  return fetch(`${BASE_URL}/users/me`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`,
+    },
+    // Os parâmetros são envolvidos em um objeto, convertidos em uma string
+    // JSON e enviados no body da solicitação.
+  }).then((res) => {
+    return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
+  });
+};

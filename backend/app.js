@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const mongoose = require('mongoose');
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
@@ -14,6 +15,9 @@ mongoose.connect('mongodb://localhost:27017/aroundb', {
 });
 
 app.use(express.json());
+app.use(cors({
+  origin: "*",
+}));
 
 app.post('/signin', login);
 app.post('/signup', createUser);

@@ -27,10 +27,11 @@ function App() {
   const location = useLocation();
 
   React.useEffect(() => {
+  
     (async () => {
       await api.getUserInfo()
         .then((data) => {
-          setCurrentUser(data);
+          setCurrentUser(data.data);
         })
         .catch((err) => {
           console.error("Erro ao obter User Info:", err);
@@ -38,37 +39,34 @@ function App() {
     })();
       api.getInitialCards()
         .then((result) => {
-          setCards(result); 
+          setCards(result.data); 
         })
         .catch((err) => {
           console.error("Erro ao obter cartões iniciais:", err);
         });
 
-      const token = getToken();
-      if (!token) {
-        console.log("TOKEN: ", token);
-        return;
-      } else if(token) {
-        auth
-          .retrieveEmail(token)
-          .then((data) => {
-            setUserData({email: data.data.email});
-            setIsLoggedIn(true);
-            const redirectPath = location.state?.from?.pathname || "/";
-            navigate(redirectPath);
-          })
-      }
+    const token = getToken();
+    if (!token) {
+      return;
+    } else if(token) {
+      auth
+        .retrieveEmail(token)
+        .then((data) => {
+          setUserData({email: data.data.email});
+          setIsLoggedIn(true);
+          const redirectPath = location.state?.from?.pathname || "/";
+          navigate(redirectPath);
+        })
+    }
   }, []);
 
   // CARD
 
   async function handleCardLike(card) {
-    // Verificar mais uma vez se esse cartão já foi curtido
-    const isLiked = card.likes.some(user => user._id === currentUser._id);
-    
-    // Enviar uma solicitação para a API e obter os dados do cartão atualizados
-    await api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
-        setCards((state) => state.map((currentCard) => currentCard._id === card._id ? newCard : currentCard));
+    const isLiked = card.likes.some(user => user === currentUser._id);
+    await api.changeLikeCardStatus(card._id, !isLiked)
+      .then((newCard) => {
+        setCards((state) => state.map((currentCard) => currentCard._id === card._id ? newCard.data : currentCard));
     }).catch((error) => console.error(error));
   }
 
@@ -85,7 +83,7 @@ function App() {
   const handleUpdateUser = (data) => {
     (async () => {
       await api.editProfile(data).then((newData) => {
-        setCurrentUser(newData);
+        setCurrentUser(newData.data);
       });
     })();
   };
@@ -93,7 +91,7 @@ function App() {
   function handleUpdateAvatar(avatar) {
     api.editProfilePicture(avatar)
       .then((newUserData) => {
-        setCurrentUser(newUserData); 
+        setCurrentUser(newUserData.data); 
       })
       .catch((err) => console.error(err));
   }
@@ -101,7 +99,7 @@ function App() {
   function handleAddPlaceSubmit(card) {
     api.addCard(card)
       .then((newCard) => {
-        setCards([newCard, ...cards]);
+        setCards([newCard.data, ...cards]);
       })
       .catch((err) => console.error(err));
   }
@@ -142,7 +140,7 @@ function App() {
   }) => {
     
     auth
-      .register(password, email)
+      .register(email, password)
       .then(() => {
         setIsLoginPopupOpen(true); 
       })
@@ -158,15 +156,23 @@ function App() {
     }
 
     auth
-      .authorize(password, email)
+      .authorize(email, password)
       .then((data) => {
         if (data.token) {
           setIsLoggedIn(true);
           setToken(data.token);
           auth 
             .retrieveEmail(data.token)
-            .then((data) => {
+            .then(async (data) => {
               setUserData({email: data.data.email});
+              setCurrentUser(data.data);
+              api.getInitialCards()
+                .then((result) => {
+                  setCards(result.data); 
+                })
+                .catch((err) => {
+                  console.error("Erro ao obter cartões iniciais:", err);
+                });
               const redirectPath = location.state?.from?.pathname || "/";
               navigate(redirectPath);
             })
