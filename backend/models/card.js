@@ -34,3 +34,39 @@ const cardSchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model('card', cardSchema);
+
+// Com Joi
+
+const Joi = require('joi');
+
+// Validação com Joi para os cards
+const cardValidationSchema = Joi.object({
+  name: Joi.string().min(2).max(30).required().messages({
+    'string.empty': 'O campo "name" é obrigatório.',
+    'string.min': 'O campo "name" deve ter no mínimo 2 caracteres.',
+    'string.max': 'O campo "name" deve ter no máximo 30 caracteres.',
+  }),
+  link: Joi.string().uri().required().messages({
+    'string.empty': 'O campo "link" é obrigatório.',
+    'string.uri': 'O campo "link" deve ser uma URL válida.',
+  }),
+  owner: Joi.string().custom((value, helpers) => {
+    if (!mongoose.Types.ObjectId.isValid(value)) {
+      return helpers.error('any.invalid');
+    }
+    return value;
+  }).required().messages({
+    'string.empty': 'O campo "owner" é obrigatório.',
+    'any.invalid': 'O campo "owner" deve ser um ID válido.',
+  }),
+  likes: Joi.array().items(Joi.string().custom((value, helpers) => {
+    if (!mongoose.Types.ObjectId.isValid(value)) {
+      return helpers.error('any.invalid');
+    }
+    return value;
+  })).default([]).messages({
+    'any.invalid': 'Cada item em "likes" deve ser um ID válido.',
+  }),
+});
+
+module.exports.cardValidationSchema = cardValidationSchema;

@@ -30,19 +30,32 @@ app.use('/users', usersRouter);
 app.use('/cards', cardsRouter);
 
 app.use(errorLogger);
-// app.use(errors());
 
-app.use((req, res) => {
-  res.status(404).send({
-    message: 'Rota não encontrada. Verifique o endereço e tente novamente.',
-  });
-});
+// app.use((req, res) => {
+//   res.status(404).send({
+//     message: 'Rota não encontrada. Verifique o endereço e tente novamente.',
+//   });
+// });
 
-app.use((err, req, res) => {
-  console.error('Erro interno:', err.stack); // Log do erro no console
-  res.status(500).send({
-    message: 'Ocorreu um erro no servidor. Por favor, tente novamente mais tarde.',
-  });
+app.use((err, req, res, next) => {
+  let statusCode = 500; // Padrão: Erro interno do servidor
+  let message = 'Ocorreu um erro no servidor';
+
+  if (err.name === 'ValidationError' || err.name === 'CastError') {
+    statusCode = 400; // Dados inválidos
+    message = 'Dados inválidos fornecidos';
+  } else if (err.code === 11000) {
+    statusCode = 409; // E-mail já existente
+    message = 'E-mail já registrado no servidor';
+  } else if (err.message === 'Forbidden') {
+    statusCode = 403; // Ação não permitida
+    message = 'Você não tem permissão para realizar essa ação';
+  } else if (err.message === 'NotFound') {
+    statusCode = 404; // Recurso não encontrado
+    message = 'Recurso não encontrado';
+  }
+
+  res.status(statusCode).json({ message });
 });
 
 app.listen(PORT, () => {

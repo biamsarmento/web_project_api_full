@@ -39,3 +39,24 @@ const userSchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model('user', userSchema);
+
+// Validação com Joi
+const userValidationSchema = Joi.object({
+  name: Joi.string().min(2).max(30).required(),
+  about: Joi.string().min(2).max(30).required(),
+  avatar: Joi.string()
+    .uri()
+    .pattern(/^(http:\/\/|https:\/\/)(www\.)?[\w\-.~:/?%#[\]@!$&'()*+,;=]+#?$/)
+    .message('O avatar precisa ser uma URL válida.')
+    .required(),
+  email: Joi.string().email().required().messages({
+    'string.email': 'O e-mail fornecido não é válido.',
+    'any.required': 'O e-mail é obrigatório.',
+  }),
+  password: Joi.string().min(8).required().messages({
+    'string.min': 'A senha deve conter no mínimo 8 caracteres.',
+    'any.required': 'A senha é obrigatória.',
+  }),
+});
+
+module.exports.userValidationSchema = userValidationSchema;
