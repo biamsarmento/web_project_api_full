@@ -69,7 +69,8 @@ class Api {
 
 const api = new Api({
 //   baseUrl: "https://around.nomoreparties.co/v1/web-ptbr-cohort-13",
-  baseUrl: "http://localhost:3000",
+//   baseUrl: "http://localhost:3000",
+  baseUrl: "http://api.bmsproject.mooo.com",
   headers: {
     //   authorization: "4fe5fb1a-9a42-4631-9f7e-39eb49951a0f",
       "Content-Type": "application/json",
