@@ -2,16 +2,18 @@ const Joi = require('joi');
 const mongoose = require('mongoose');
 
 const updateUserSchema = Joi.object({
-  name: Joi.string().min(2).max(30).required().messages({
-    'string.empty': 'O campo "name" é obrigatório.',
-    'string.min': 'O campo "name" deve ter no mínimo 2 caracteres.',
-    'string.max': 'O campo "name" deve ter no máximo 30 caracteres.',
-  }),
-  about: Joi.string().min(2).max(30).required().messages({
-    'string.empty': 'O campo "about" é obrigatório.',
-    'string.min': 'O campo "about" deve ter no mínimo 2 caracteres.',
-    'string.max': 'O campo "about" deve ter no máximo 30 caracteres.',
-  }),
+  name: Joi.string().min(2).max(30).required()
+    .messages({
+      'string.empty': 'O campo "name" é obrigatório.',
+      'string.min': 'O campo "name" deve ter no mínimo 2 caracteres.',
+      'string.max': 'O campo "name" deve ter no máximo 30 caracteres.',
+    }),
+  about: Joi.string().min(2).max(30).required()
+    .messages({
+      'string.empty': 'O campo "about" é obrigatório.',
+      'string.min': 'O campo "about" deve ter no mínimo 2 caracteres.',
+      'string.max': 'O campo "about" deve ter no máximo 30 caracteres.',
+    }),
 });
 
 const updateAvatarSchema = Joi.object({

@@ -1,6 +1,6 @@
-const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const User = require('../models/user');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
@@ -25,13 +25,13 @@ module.exports.login = (req, res, next) => {
           const token = jwt.sign(
             { _id: user._id },
             NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
-            { expiresIn: '7d' }
+            { expiresIn: '7d' },
           );
 
           res.send({ token });
         });
     })
-    .catch(next); // Encaminha qualquer erro para o middleware
+    .catch(next);
 };
 
 module.exports.getCurrentUser = (req, res, next) => {
@@ -84,16 +84,20 @@ module.exports.createUser = (req, res, next) => {
   }
 
   bcrypt.hash(password, 10)
-    .then((hashedPassword) => User.create({ name, about, avatar, email, password: hashedPassword }))
+    .then((hashedPassword) => User.create({
+      name, about, avatar, email, password: hashedPassword,
+    }))
     .then((user) => res.send({ data: user }))
     .catch((err) => {
+      let customError = err;
       if (err.name === 'ValidationError') {
-        err.status = 400;
+        customError = new Error('Erro de validação.');
+        customError.status = 400;
       } else if (err.code === 11000) {
-        err.status = 409;
-        err.message = 'O e-mail já está em uso.';
+        customError = new Error('O e-mail já está em uso.');
+        customError.status = 409;
       }
-      next(err); // Encaminha qualquer erro ao middleware
+      next(customError);
     });
 };
 
@@ -108,10 +112,12 @@ module.exports.updateUser = (req, res, next) => {
     })
     .then((user) => res.send({ data: user }))
     .catch((err) => {
+      let customError = err;
       if (err.name === 'ValidationError') {
-        err.status = 400;
+        customError = new Error('Erro de validação.');
+        customError.status = 400;
       }
-      next(err);
+      next(customError);
     });
 };
 
@@ -126,9 +132,11 @@ module.exports.updateUserAvatar = (req, res, next) => {
     })
     .then((user) => res.send({ data: user }))
     .catch((err) => {
+      let customError = err;
       if (err.name === 'ValidationError') {
-        err.status = 400;
+        customError = new Error('Erro de validação.');
+        customError.status = 400;
       }
-      next(err);
+      next(customError);
     });
 };

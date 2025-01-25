@@ -17,7 +17,8 @@ module.exports.createCard = (req, res, next) => {
       if (err.name === 'ValidationError') {
         return res.status(400).send({ message: `Dados inválidos fornecidos. ${err.message}` });
       }
-      next(err);
+
+      return next(err);
     });
 };
 
@@ -42,7 +43,7 @@ module.exports.deleteCard = (req, res, next) => {
       if (err.name === 'CastError' || err.name === 'DocumentNotFoundError') {
         return res.status(404).send({ message: 'Cartão não encontrado.' });
       }
-      next(err);
+      return next(err);
     });
 };
 
@@ -61,7 +62,7 @@ module.exports.likeCard = (req, res, next) => {
       if (err.name === 'CastError' || err.name === 'DocumentNotFoundError') {
         return res.status(404).send({ message: 'Cartão não encontrado.' });
       }
-      next(err);
+      return next(err);
     });
 };
 
@@ -80,6 +81,6 @@ module.exports.dislikeCard = (req, res, next) => {
       if (err.name === 'CastError' || err.name === 'DocumentNotFoundError') {
         return res.status(404).send({ message: 'Cartão não encontrado.' });
       }
-      next(err);
+      return next(err);
     });
 };
